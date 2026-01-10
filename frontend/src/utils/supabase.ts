@@ -1,7 +1,8 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { type SupabaseClient, createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = 'https://quqkbbcfqdgmgnzutqer.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1cWtiYmNmcWRnbWduenV0cWVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NTAxMjUsImV4cCI6MjA1NzAyNjEyNX0.QXmOk7-4_9GpzJjrx7Zr_bACKecNM8_bkAMo7zECYPI';
+const SUPABASE_ANON_KEY =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1cWtiYmNmcWRnbWduenV0cWVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NTAxMjUsImV4cCI6MjA1NzAyNjEyNX0.QXmOk7-4_9GpzJjrx7Zr_bACKecNM8_bkAMo7zECYPI';
 
 // Create Supabase client
 let _supabase: SupabaseClient | null = null;
@@ -16,51 +17,21 @@ export function getSupabase(): SupabaseClient {
 export const supabase = getSupabase();
 
 /**
- * Fetches all issues from the database
+ * Fetches all issues from static JSON file
  * @returns A record mapping issue IDs to issue objects
  */
 export async function getIssuesSupabase(): Promise<Record<string, any>> {
 	try {
-		// First try to get static issues
 		const response = await fetch('/issues.json');
 		const staticIssues = await response.json();
 
-		// If we have static issues, use those
-		if (staticIssues && staticIssues.length > 0) {
-			// console.log('Using static issues');
-			return staticIssues.reduce(
-				(acc, issue) => {
-					acc[issue.id] = issue;
-					return acc;
-				},
-				{} as Record<string, any>
-			);
-		}
-
-		// Fallback to Supabase if no static issues
-		console.log('No static issues found, falling back to Supabase');
-		const { data: issues, error } = await supabase
-			.from('issue')
-			.select('*')
-			.order('created_at', { ascending: false });
-
-		if (error) {
-			console.error('Error fetching issues from Supabase:', error);
-			return {};
-		}
-
-		if (issues) {
-			console.log('Supabase Issues:', issues);
-			return issues.reduce(
-				(acc, issue) => {
-					acc[issue.id] = issue;
-					return acc;
-				},
-				{} as Record<string, any>
-			);
-		}
-
-		return {};
+		return staticIssues.reduce(
+			(acc: Record<string, any>, issue: any) => {
+				acc[issue.id] = issue;
+				return acc;
+			},
+			{} as Record<string, any>
+		);
 	} catch (err) {
 		console.error('Error fetching issues:', err);
 		return {};
@@ -106,10 +77,7 @@ export async function supabaseEmbed(input: string): Promise<number[]> {
  * @param matchCount Number of results to return
  * @returns Array of search results
  */
-export async function searchSupabaseEmbedSearch(
-	query: string,
-	matchCount: number = 30
-): Promise<any[]> {
+export async function searchSupabaseEmbedSearch(query: string, matchCount = 30): Promise<any[]> {
 	try {
 		const response = await fetch(
 			'https://quqkbbcfqdgmgnzutqer.supabase.co/functions/v1/embed-search',
@@ -150,7 +118,7 @@ export async function searchSupabaseEmbedSearch(
 export async function supabaseResultsFromEmbedding(
 	queryText: string,
 	embedding: number[],
-	matchCount: number = 30
+	matchCount = 30
 ): Promise<any[]> {
 	try {
 		console.log('Using supabase to fetch results with embedding:', {

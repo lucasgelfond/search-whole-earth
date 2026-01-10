@@ -1,13 +1,13 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
-	font-family: 'Whole Earth Modern';
-	src: url('/WEMLMRoman8-Regular.woff2') format('woff2');
+	font-family: "Whole Earth Modern";
+	src: url("/WEMLMRoman8-Regular.woff2") format("woff2");
 }
 
 @font-face {
-	font-family: 'Century Schoolbook Monospace';
-	src: url('/MLMRomanUnsl10-Regular.woff2') format('woff2');
+	font-family: "Century Schoolbook Monospace";
+	src: url("/MLMRomanUnsl10-Regular.woff2") format("woff2");
 }
 
 html,
@@ -34,9 +34,5 @@ body {
 
 * {
 	box-sizing: border-box;
-	font-family:
-		Whole Earth Modern,
-		'Century Schoolbook Monospace',
-		Courier,
-		monospace;
+	font-family: Whole Earth Modern, "Century Schoolbook Monospace", Courier, monospace;
 }

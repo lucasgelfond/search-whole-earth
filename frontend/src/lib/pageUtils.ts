@@ -18,8 +18,8 @@ export async function fetchAllPages(issueId: string): Promise<PageMap> {
 
 	return data.reduce((acc: PageMap, page: any) => {
 		// Convert page_number to number since it's stored as string
-		const pageNum = parseInt(page.page_number as string, 10);
-		if (!isNaN(pageNum)) {
+		const pageNum = Number.parseInt(page.page_number as string, 10);
+		if (!Number.isNaN(pageNum)) {
 			acc[pageNum] = {
 				...page,
 				page_number: pageNum

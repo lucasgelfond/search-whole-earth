@@ -1,76 +1,74 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { writable } from 'svelte/store';
-  import type { PageMap, PageData } from '$lib/pageUtils';
-  import { fetchAllPages } from '$lib/pageUtils';
-  import IssueInformation from './IssueInformation.svelte';
-  import { collectionMap } from '../utils/collections';
-  
-  export let item: PageData;
-  export let issue: any;
+import type { PageData, PageMap } from '$lib/pageUtils';
+import { fetchAllPages } from '$lib/pageUtils';
+import { onMount } from 'svelte';
+import { writable } from 'svelte/store';
+import { collectionMap } from '../utils/collections';
+import IssueInformation from './IssueInformation.svelte';
 
-  const currentPageNumber = writable(Number(item.page_number) || 1);
-  const allPages = writable<PageMap>({});
-  const loading = writable(false);
+export let item: PageData;
+export let issue: any;
 
-  async function loadAllPages() {
-    loading.set(true);
-    try {
-      const pages = await fetchAllPages(issue.id);
-      allPages.set(pages);
-    } finally {
-      loading.set(false);
-    }
-  }
+const currentPageNumber = writable(Number(item.page_number) || 1);
+const allPages = writable<PageMap>({});
+const loading = writable(false);
 
- 
-  function changePage(newPageNumber: number) {
-    if ($loading) return;
-    newPageNumber = Number(newPageNumber);
-    if (newPageNumber < 1 || newPageNumber > issue.num_pages) return;
-    if (!$allPages[newPageNumber]) return;
-    
-    currentPageNumber.set(newPageNumber);
-  }
+async function loadAllPages() {
+	loading.set(true);
+	try {
+		const pages = await fetchAllPages(issue.id);
+		allPages.set(pages);
+	} finally {
+		loading.set(false);
+	}
+}
 
-  // Handle keyboard and touch navigation
-  function handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'ArrowLeft' && $currentPageNumber > 1) {
-      changePage($currentPageNumber - 1);
-    } else if (event.key === 'ArrowRight' && $currentPageNumber < issue.num_pages) {
-      changePage($currentPageNumber + 1);
-    }
-  }
+function changePage(newPageNumber: number) {
+	if ($loading) return;
+	const pageNum = Number(newPageNumber);
+	if (pageNum < 1 || pageNum > issue.num_pages) return;
+	if (!$allPages[pageNum]) return;
 
-  let touchStart: number;
-  function handleTouchStart(event: TouchEvent) {
-    touchStart = event.touches[0].clientX;
-  }
+	currentPageNumber.set(pageNum);
+}
 
-  function handleTouchEnd(event: TouchEvent) {
-    const touchEnd = event.changedTouches[0].clientX;
-    const diff = touchStart - touchEnd;
+// Handle keyboard and touch navigation
+function handleKeydown(event: KeyboardEvent) {
+	if (event.key === 'ArrowLeft' && $currentPageNumber > 1) {
+		changePage($currentPageNumber - 1);
+	} else if (event.key === 'ArrowRight' && $currentPageNumber < issue.num_pages) {
+		changePage($currentPageNumber + 1);
+	}
+}
 
-    if (Math.abs(diff) > 50) { // Minimum swipe distance
-      if (diff > 0 && $currentPageNumber < issue.num_pages) {
-        changePage($currentPageNumber + 1);
-      } else if (diff < 0 && $currentPageNumber > 1) {
-        changePage($currentPageNumber - 1);
-      }
-    }
-  }
+let touchStart: number;
+function handleTouchStart(event: TouchEvent) {
+	touchStart = event.touches[0].clientX;
+}
 
-  let cleanup: () => void;
+function handleTouchEnd(event: TouchEvent) {
+	const touchEnd = event.changedTouches[0].clientX;
+	const diff = touchStart - touchEnd;
 
-  onMount(() => {
+	if (Math.abs(diff) > 50) {
+		// Minimum swipe distance
+		if (diff > 0 && $currentPageNumber < issue.num_pages) {
+			changePage($currentPageNumber + 1);
+		} else if (diff < 0 && $currentPageNumber > 1) {
+			changePage($currentPageNumber - 1);
+		}
+	}
+}
 
-    allPages.set({ [item.page_number]: item });
-    window.addEventListener('keydown', handleKeydown);
-    cleanup = () => window.removeEventListener('keydown', handleKeydown);
-    loadAllPages();
-    return cleanup;
-  });
+let cleanup: () => void;
 
+onMount(() => {
+	allPages.set({ [item.page_number]: item });
+	window.addEventListener('keydown', handleKeydown);
+	cleanup = () => window.removeEventListener('keydown', handleKeydown);
+	loadAllPages();
+	return cleanup;
+});
 </script>
 <!-- Desktop Layout -->
 <div class="hidden md:flex bg-black text-white">

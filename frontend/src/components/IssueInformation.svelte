@@ -1,7 +1,7 @@
 <script lang="ts">
-  export let issue: any;
-  export let collectionMap: Record<string, string>;
-  export let currentPageNumber: number;
+export let issue: any;
+export let collectionMap: Record<string, string>;
+export let currentPageNumber: number;
 </script>
 
 <div class="flex flex-col gap-6">

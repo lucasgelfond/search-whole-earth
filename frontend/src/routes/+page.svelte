@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount } from 'svelte';
-import { writable } from 'svelte/store';
 import Modal from 'svelte-simple-modal';
+import { writable } from 'svelte/store';
 import SearchResults from '../components/SearchResults.svelte';
 import { getIssuesSupabase, supabaseEmbed, supabaseResultsFromEmbedding } from '../utils/supabase';
 
@@ -12,30 +12,29 @@ const issueMap = writable<Record<string, any>>({});
 const modalStore = writable(null);
 
 async function fetchIssues() {
-  const issues = await getIssuesSupabase();
-  issueMap.set(issues);
+	const issues = await getIssuesSupabase();
+	issueMap.set(issues);
 }
 
 onMount(() => {
-  fetchIssues();
+	fetchIssues();
 });
 
 async function handleSearch(query: string) {
-  if (loading) return;
-  loading = true;
-  const embedding = await supabaseEmbed(query);
-  console.log('generated embedding from supabase: ', {embedding})
-  const results = await supabaseResultsFromEmbedding(query, embedding);
-  result = results;
-  loading = false;
+	if (loading) return;
+	loading = true;
+	const embedding = await supabaseEmbed(query);
+	console.log('generated embedding from supabase: ', { embedding });
+	const results = await supabaseResultsFromEmbedding(query, embedding);
+	result = results;
+	loading = false;
 }
 
 function handleKeyPress(event: KeyboardEvent) {
-  if (event.key === 'Enter') {
-    handleSearch(input);
-  }
+	if (event.key === 'Enter') {
+		handleSearch(input);
+	}
 }
-
 </script>
 <Modal 
   show={$modalStore}

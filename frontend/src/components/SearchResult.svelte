@@ -1,18 +1,17 @@
 <script lang="ts">
-  import { collectionMap } from '../utils/collections';
-  
-  // Props
-  export let item: any;
-  export let issueMap: Record<string, any> = {};
-  
-  // Dispatch click event to parent
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
-  
-  function handleClick() {
-    dispatch('select', item);
-  }
+import { collectionMap } from '../utils/collections';
 
+// Props
+export let item: any;
+export let issueMap: Record<string, any> = {};
+
+// Dispatch click event to parent
+import { createEventDispatcher } from 'svelte';
+const dispatch = createEventDispatcher();
+
+function handleClick() {
+	dispatch('select', item);
+}
 </script>
 
 <button 
