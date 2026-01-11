@@ -1,19 +1,19 @@
-import { createServer } from 'node:http';
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { env } from "./env";
+import { searchRoute } from "./routes/search";
+import { healthRoute } from "./routes/health";
+import { pagesRoute } from "./routes/pages";
 
-const PORT = process.env.PORT || 3000;
+const app = new Hono();
 
-const server = createServer((req, res) => {
-	if (req.url === '/hello' && req.method === 'GET') {
-		res.writeHead(200, { 'Content-Type': 'application/json' });
-		res.end(JSON.stringify({ message: 'hello' }));
-		return;
-	}
+app.use("*", cors());
 
-	res.writeHead(404, { 'Content-Type': 'application/json' });
-	res.end(JSON.stringify({ error: 'Not found' }));
-});
+app.route("/", healthRoute);
+app.route("/", searchRoute);
+app.route("/", pagesRoute);
 
-server.listen(PORT, () => {
-	console.log(`Server running at http://localhost:${PORT}`);
-	console.log(`Test with: curl http://localhost:${PORT}/hello`);
+serve({ fetch: app.fetch, port: env.PORT }, () => {
+	console.log(`Server running at http://localhost:${env.PORT}`);
 });

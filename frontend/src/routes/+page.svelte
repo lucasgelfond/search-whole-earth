@@ -3,7 +3,7 @@ import { onMount } from 'svelte';
 import Modal from 'svelte-simple-modal';
 import { writable } from 'svelte/store';
 import SearchResults from '../components/SearchResults.svelte';
-import { getIssuesSupabase, supabaseEmbed, supabaseResultsFromEmbedding } from '../utils/supabase';
+import { getIssues, search } from '../utils/api';
 
 let input = '';
 let result: any[] = [];
@@ -12,8 +12,12 @@ const issueMap = writable<Record<string, any>>({});
 const modalStore = writable(null);
 
 async function fetchIssues() {
-	const issues = await getIssuesSupabase();
-	issueMap.set(issues);
+	try {
+		const issues = await getIssues();
+		issueMap.set(issues);
+	} catch (error) {
+		console.error('Failed to fetch issues:', error);
+	}
 }
 
 onMount(() => {
@@ -23,11 +27,14 @@ onMount(() => {
 async function handleSearch(query: string) {
 	if (loading) return;
 	loading = true;
-	const embedding = await supabaseEmbed(query);
-	console.log('generated embedding from supabase: ', { embedding });
-	const results = await supabaseResultsFromEmbedding(query, embedding);
-	result = results;
-	loading = false;
+	try {
+		const results = await search(query);
+		result = results;
+	} catch (error) {
+		console.error('Search error:', error);
+	} finally {
+		loading = false;
+	}
 }
 
 function handleKeyPress(event: KeyboardEvent) {

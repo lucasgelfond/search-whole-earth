@@ -29,10 +29,11 @@
 		"vite": "^6.0.0"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["esbuild"]
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
 	},
 	"dependencies": {
-		"@supabase/supabase-js": "^2.49.1",
 		"dotenv": "^16.4.7",
 		"svelte-simple-modal": "^2.0.0"
 	}

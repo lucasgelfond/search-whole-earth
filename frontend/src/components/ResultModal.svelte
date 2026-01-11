@@ -1,6 +1,6 @@
 <script lang="ts">
-import type { PageData, PageMap } from '$lib/pageUtils';
-import { fetchAllPages } from '$lib/pageUtils';
+import type { PageData, PageMap } from '$lib/page-utils';
+import { fetchAllPages } from '$lib/page-utils';
 import { onMount } from 'svelte';
 import { writable } from 'svelte/store';
 import { collectionMap } from '../utils/collections';

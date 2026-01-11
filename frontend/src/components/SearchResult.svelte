@@ -39,29 +39,29 @@ function handleClick() {
         </div>
         <div>Page {item.page_number}/{issueMap[item.parent_issue_id].num_pages}</div>
       </div>
-      <div class="flex gap-2 mt-1 text-xs">
-        <a 
-          href={issueMap[item.parent_issue_id].internet_archive} 
-          class="text-blue-400 hover:underline" 
+      <div class="flex gap-2 pt-1 text-xs">
+        <a
+          href={issueMap[item.parent_issue_id].internet_archive}
+          class="text-blue-400 hover:underline"
           target="_blank"
           on:click|stopPropagation
         >
           Archive
         </a>
-        <a 
-          href={issueMap[item.parent_issue_id].issue_url} 
-          class="text-blue-400 hover:underline" 
+        <a
+          href={issueMap[item.parent_issue_id].issue_url}
+          class="text-blue-400 hover:underline"
           target="_blank"
           on:click|stopPropagation
         >
           Info
         </a>
       </div>
-      <!-- OCR content for mobile -->
-      <div class="mt-1 text-xs h-[60px] overflow-y-auto text-white">
-        {item.ocr_result}
-      </div>
     {/if}
+    <!-- OCR content for mobile - always show even without issue metadata -->
+    <div class="pt-1 text-xs h-[60px] overflow-y-auto text-white">
+      {item.ocr_result || 'No text available'}
+    </div>
   </div>
   
   <!-- Desktop only: Metadata column -->
@@ -72,7 +72,7 @@ function handleClick() {
         <div>Published: {issueMap[item.parent_issue_id].pub_date}</div>
         <div>Page {item.page_number}/{issueMap[item.parent_issue_id].num_pages}</div>
       </div>
-      <div class="flex gap-2 mt-2 text-sm">
+      <div class="flex gap-2 pt-2 text-sm">
         <a 
           href={issueMap[item.parent_issue_id].internet_archive} 
           class="text-blue-400 hover:underline" 
@@ -103,6 +103,6 @@ function handleClick() {
   
   <!-- Desktop only: OCR content column -->
   <div class="hidden md:block h-[150px] overflow-y-auto text-sm text-white">
-    {item.ocr_result}
+    {item.ocr_result || 'No text available'}
   </div>
 </button>
