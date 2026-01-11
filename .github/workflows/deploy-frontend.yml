@@ -33,6 +33,8 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          VITE_API_URL: https://searchable-whole-earth-backend.workers.dev
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
