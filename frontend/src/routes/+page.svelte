@@ -99,7 +99,7 @@ function handleKeyPress(event: KeyboardEvent) {
               disabled={loading}
             >
               {#if loading}
-                <span class="inline-block animate-spin mr-1">⟳</span>
+                <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
                 Searching...
               {:else}
                 Search

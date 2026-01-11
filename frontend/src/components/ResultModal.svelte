@@ -13,11 +13,27 @@ const currentPageNumber = writable(Number(item.page_number) || 1);
 const allPages = writable<PageMap>({});
 const loading = writable(false);
 
+const preloadedPages = new Set<number>();
+
+function preloadNearbyImages(pages: PageMap, currentPage: number) {
+	const start = Math.max(1, currentPage - 10);
+	const end = Math.min(issue.num_pages, currentPage + 10);
+
+	for (let i = start; i <= end; i++) {
+		if (pages[i]?.image_url && !preloadedPages.has(i)) {
+			preloadedPages.add(i);
+			const img = new Image();
+			img.src = pages[i].image_url;
+		}
+	}
+}
+
 async function loadAllPages() {
 	loading.set(true);
 	try {
 		const pages = await fetchAllPages(issue.id);
 		allPages.set(pages);
+		preloadNearbyImages(pages, $currentPageNumber);
 	} finally {
 		loading.set(false);
 	}
@@ -30,6 +46,7 @@ function changePage(newPageNumber: number) {
 	if (!$allPages[pageNum]) return;
 
 	currentPageNumber.set(pageNum);
+	preloadNearbyImages($allPages, pageNum);
 }
 
 // Handle keyboard and touch navigation
