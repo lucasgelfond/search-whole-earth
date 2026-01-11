@@ -42,4 +42,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: frontend
+          packageManager: pnpm
           command: pages deploy .svelte-kit/cloudflare --project-name=searchable-whole-earth-frontend
