@@ -19,10 +19,12 @@ function getTogetherClient(): Together {
 }
 
 export async function embedQuery(text: string): Promise<number[]> {
+	const start = performance.now();
 	const together = getTogetherClient();
 	const response = await together.embeddings.create({
 		model: EMBEDDING_MODEL,
 		input: text,
 	});
+	console.log(`  [timing] Together embedding: ${(performance.now() - start).toFixed(0)}ms`);
 	return response.data[0].embedding;
 }

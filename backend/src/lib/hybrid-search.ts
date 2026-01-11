@@ -5,7 +5,8 @@ import { getPresignedUrl } from "./presign";
 
 const NAMESPACE = "searchable-whole-earth-page";
 
-type TurbopufferNamespace = ReturnType<Turbopuffer["namespace"]>;
+export type TurbopufferNamespace = ReturnType<Turbopuffer["namespace"]>;
+export type Bm25Promise = Promise<Awaited<ReturnType<TurbopufferNamespace["query"]>>>;
 
 // Singleton Turbopuffer namespace cache (keyed by API key)
 const tpufNamespaceCache = new Map<string, TurbopufferNamespace>();
@@ -26,6 +27,23 @@ export function getTurbopufferNamespace(): TurbopufferNamespace {
 	return ns;
 }
 
+/**
+ * Start BM25 search early (can run in parallel with embedding generation)
+ */
+export function startBm25Search(queryText: string, matchCount = 30): Bm25Promise {
+	const ns = getTurbopufferNamespace();
+	const start = performance.now();
+	const promise = ns.query({
+		rank_by: ["ocr_result", "BM25", queryText],
+		top_k: matchCount,
+		include_attributes: ["parent_issue_id", "page_number", "ocr_result", "r2_object_id"],
+	});
+	promise.then(() => {
+		console.log(`  [timing] BM25 search: ${(performance.now() - start).toFixed(0)}ms`);
+	});
+	return promise;
+}
+
 export interface SearchResult {
 	id: string;
 	parent_issue_id: string | null;
@@ -39,22 +57,33 @@ export interface SearchResult {
 export async function hybridSearch(
 	queryText: string,
 	embedding: number[],
-	matchCount = 30
+	matchCount = 30,
+	bm25Promise?: Promise<Awaited<ReturnType<TurbopufferNamespace["query"]>>>
 ): Promise<SearchResult[]> {
 	const ns = getTurbopufferNamespace();
 
-	const [vectorResponse, bm25Response] = await Promise.all([
-		ns.query({
-			rank_by: ["vector", "ANN", embedding],
-			top_k: matchCount,
-			include_attributes: ["parent_issue_id", "page_number", "ocr_result", "r2_object_id"],
-		}),
+	const vectorStart = performance.now();
+	const vectorResponsePromise = ns.query({
+		rank_by: ["vector", "ANN", embedding],
+		top_k: matchCount,
+		include_attributes: ["parent_issue_id", "page_number", "ocr_result", "r2_object_id"],
+	});
+
+	// Use pre-started BM25 promise if provided, otherwise start it now
+	const bm25ResponsePromise =
+		bm25Promise ??
 		ns.query({
 			rank_by: ["ocr_result", "BM25", queryText],
 			top_k: matchCount,
 			include_attributes: ["parent_issue_id", "page_number", "ocr_result", "r2_object_id"],
-		}),
+		});
+
+	const [vectorResponse, bm25Response] = await Promise.all([
+		vectorResponsePromise,
+		bm25ResponsePromise,
 	]);
+	const vectorEnd = performance.now();
+	console.log(`  [timing] Vector search: ${(vectorEnd - vectorStart).toFixed(0)}ms`);
 
 	const vectorResults = (vectorResponse.rows ?? []).map((row) => {
 		const rowData = row as Record<string, unknown>;
@@ -87,6 +116,7 @@ export async function hybridSearch(
 	const fused = reciprocalRankFusion(vectorResults, bm25Results);
 	const topResults = fused.slice(0, matchCount);
 
+	const urlStart = performance.now();
 	const resultsWithUrls = await Promise.all(
 		topResults.map(async (item) => {
 			const attrs = item.attrs ?? {};
@@ -112,6 +142,7 @@ export async function hybridSearch(
 			};
 		})
 	);
+	console.log(`  [timing] URL presigning (${topResults.length} urls): ${(performance.now() - urlStart).toFixed(0)}ms`);
 
 	return resultsWithUrls;
 }
