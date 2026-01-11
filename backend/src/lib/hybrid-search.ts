@@ -5,6 +5,27 @@ import { getPresignedUrl } from "./presign";
 
 const NAMESPACE = "searchable-whole-earth-page";
 
+type TurbopufferNamespace = ReturnType<Turbopuffer["namespace"]>;
+
+// Singleton Turbopuffer namespace cache (keyed by API key)
+const tpufNamespaceCache = new Map<string, TurbopufferNamespace>();
+
+export function getTurbopufferNamespace(): TurbopufferNamespace {
+	const env = getEnv();
+	const cacheKey = env.TURBOPUFFER_API_KEY;
+
+	let ns = tpufNamespaceCache.get(cacheKey);
+	if (!ns) {
+		const tpuf = new Turbopuffer({
+			apiKey: env.TURBOPUFFER_API_KEY,
+			region: env.TURBOPUFFER_REGION,
+		});
+		ns = tpuf.namespace(NAMESPACE);
+		tpufNamespaceCache.set(cacheKey, ns);
+	}
+	return ns;
+}
+
 export interface SearchResult {
 	id: string;
 	parent_issue_id: string | null;
@@ -20,14 +41,7 @@ export async function hybridSearch(
 	embedding: number[],
 	matchCount = 30
 ): Promise<SearchResult[]> {
-	const env = getEnv();
-
-	const tpuf = new Turbopuffer({
-		apiKey: env.TURBOPUFFER_API_KEY,
-		region: env.TURBOPUFFER_REGION,
-	});
-
-	const ns = tpuf.namespace(NAMESPACE);
+	const ns = getTurbopufferNamespace();
 
 	const [vectorResponse, bm25Response] = await Promise.all([
 		ns.query({
