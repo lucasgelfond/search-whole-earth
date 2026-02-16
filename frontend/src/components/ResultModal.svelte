@@ -188,44 +188,42 @@ onDestroy(() => {
 <!-- Desktop Layout -->
 <div class="hidden md:flex bg-black text-white h-full">
   <!-- Image column -->
-  <div class="flex-1 overflow-y-auto">
-    <div
-      class="relative inline-block"
-      on:touchstart={handleTouchStart}
-      on:touchend={handleTouchEnd}
-    >
-      {#if $allPages[$currentPageNumber]?.image_url}
-        <img
-          src={$allPages[$currentPageNumber].image_url}
-          alt="Page {$currentPageNumber}"
-          class="w-full h-auto"
-        />
+  <div
+    class="flex-1 flex items-center justify-center p-6 min-h-0 min-w-0 relative"
+    on:touchstart={handleTouchStart}
+    on:touchend={handleTouchEnd}
+  >
+    {#if $allPages[$currentPageNumber]?.image_url}
+      <img
+        src={$allPages[$currentPageNumber].image_url}
+        alt="Page {$currentPageNumber}"
+        class="max-h-full max-w-full object-contain"
+      />
+    {/if}
 
-        <div class="absolute inset-y-0 left-0 right-0 flex justify-between items-center pointer-events-none">
-          <button
-            class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
-            disabled={$currentPageNumber <= 1 || $loading || !$allPages[$currentPageNumber - 1]}
-            on:click={() => changePage($currentPageNumber - 1)}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          </button>
-          <button
-            class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
-            disabled={$currentPageNumber >= issue.num_pages || $loading || !$allPages[$currentPageNumber + 1]}
-            on:click={() => changePage($currentPageNumber + 1)}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </button>
-        </div>
-
-        <button
-          class="absolute top-2 right-2 bg-black/70 text-white p-2 hover:bg-black/90 flex items-center justify-center"
-          on:click={toggleFullScreen}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
-        </button>
-      {/if}
+    <div class="absolute inset-y-0 left-0 right-0 flex justify-between items-center pointer-events-none px-2">
+      <button
+        class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+        disabled={$currentPageNumber <= 1 || $loading || !$allPages[$currentPageNumber - 1]}
+        on:click={() => changePage($currentPageNumber - 1)}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button
+        class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+        disabled={$currentPageNumber >= issue.num_pages || $loading || !$allPages[$currentPageNumber + 1]}
+        on:click={() => changePage($currentPageNumber + 1)}
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
     </div>
+
+    <button
+      class="absolute top-4 right-4 bg-black/70 text-white p-2 hover:bg-black/90 flex items-center justify-center"
+      on:click={toggleFullScreen}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+    </button>
   </div>
 
   <!-- Content column -->

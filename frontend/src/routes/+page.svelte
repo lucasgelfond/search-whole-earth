@@ -96,53 +96,48 @@ function handleKeyPress(event: KeyboardEvent) {
 
 <svelte:window on:keydown={(e) => { if (e.key === 'Escape' && modalProps) handleModalClose(); }} />
 
-<div class="flex flex-col w-full h-full min-h-full flex-grow text-white bg-black">
-  <div class="sticky top-0 bg-black px-4 md:px-20 pt-8 md:pt-12 pb-4 z-10">
+<div class="flex flex-col h-screen overflow-hidden text-white bg-black">
+  <div class="flex-none px-4 md:px-20 pt-8 md:pt-12 pb-4">
     <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">
       The (Searchable) Whole Earth
     </h1>
   </div>
 
-  <div class="flex flex-row flex-1 bg-black text-white">
-    <!-- Left side -->
-    <div class="flex-1 px-4 md:px-20">
-      <h2 class="text-sm mb-3 text-gray-300 max-w-[60vh] leading-relaxed">
-        Based on the (incredible) archiving effort of the <a href="https://wholeearth.info" class="underline hover:text-white">Whole Earth Index</a> to scan and digitize all of these old issues, by <a href="https://grayarea.org/" class="underline hover:text-white">Gray Area</a> and <a href="https://archive.org/" class="underline hover:text-white">Internet Archive</a>. That effort was led by <a href="https://barrythrew.com/" class="underline hover:text-white">Barry Threw</a>, designed by <a href="https://jongacnik.com/" class="underline hover:text-white">Jon Gacnik</a> and <a href="https://mindyseu.com/" class="underline hover:text-white">Mindy Seu</a>. More info <a href="https://wholeearth.info/information" class="underline hover:text-white">here</a>. This site (+ OCR-ing these pages, embeddings, search functionality, and this webapp) was built by <a href="https://lucasgelfond.online" class="underline hover:text-white">Lucas Gelfond</a>, you can read the source <a href="https://github.com/lucasgelfond/searchable-whole-earth" class="underline hover:text-white">here</a>.
-      </h2>
+  <div class="flex flex-col flex-1 min-h-0 px-4 md:px-20">
+    <h2 class="flex-none text-sm mb-3 text-gray-300 max-w-[60vh] leading-relaxed">
+      Based on the (incredible) archiving effort of the <a href="https://wholeearth.info" class="underline hover:text-white">Whole Earth Index</a> to scan and digitize all of these old issues, by <a href="https://grayarea.org/" class="underline hover:text-white">Gray Area</a> and <a href="https://archive.org/" class="underline hover:text-white">Internet Archive</a>. That effort was led by <a href="https://barrythrew.com/" class="underline hover:text-white">Barry Threw</a>, designed by <a href="https://jongacnik.com/" class="underline hover:text-white">Jon Gacnik</a> and <a href="https://mindyseu.com/" class="underline hover:text-white">Mindy Seu</a>. More info <a href="https://wholeearth.info/information" class="underline hover:text-white">here</a>. This site (+ OCR-ing these pages, embeddings, search functionality, and this webapp) was built by <a href="https://lucasgelfond.online" class="underline hover:text-white">Lucas Gelfond</a>, you can read the source <a href="https://github.com/lucasgelfond/searchable-whole-earth" class="underline hover:text-white">here</a>.
+    </h2>
 
-      <div class="flex gap-2">
-        <div class="py-2">
-          <input
-            type="text"
-            class="border border-white rounded px-2 py-1 bg-black text-white"
-            placeholder="Enter text to search..."
-            bind:value={input}
-            on:keypress={handleKeyPress}
-            disabled={loading}
-          />
-          <button
-            class="border border-white text-white px-4 py-1 rounded hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            on:click={() => handleSearch(input)}
-            disabled={loading}
-          >
-            {#if loading}
-              <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
-              Searching...
-            {:else}
-              Search
-            {/if}
-          </button>
-        </div>
-      </div>
+    <div class="flex-none py-2">
+      <input
+        type="text"
+        class="border border-white rounded px-2 py-1 bg-black text-white"
+        placeholder="Enter text to search..."
+        bind:value={input}
+        on:keypress={handleKeyPress}
+        disabled={loading}
+      />
+      <button
+        class="border border-white text-white px-4 py-1 rounded hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        on:click={() => handleSearch(input)}
+        disabled={loading}
+      >
+        {#if loading}
+          <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+          Searching...
+        {:else}
+          Search
+        {/if}
+      </button>
+    </div>
 
-      <div class="overflow-y-auto pb-8 max-h-[500px] md:pb-40">
-        <SearchResults
-          results={result}
-          issueMap={$issueMap}
-          {openModal}
-          query={input}
-        />
-      </div>
+    <div class="flex-1 min-h-0 overflow-y-auto pb-8">
+      <SearchResults
+        results={result}
+        issueMap={$issueMap}
+        {openModal}
+        query={input}
+      />
     </div>
   </div>
 </div>
@@ -157,7 +152,7 @@ function handleKeyPress(event: KeyboardEvent) {
   >
     <div
       class="relative bg-black border border-white rounded-lg overflow-hidden"
-      style="width: 90vw; height: 80vh; max-width: none; margin-bottom: 15vh;"
+      style="width: 90vw; height: 90vh; max-width: none;"
     >
       <button
         class="absolute top-4 right-4 z-10 text-white bg-transparent border-none opacity-100 text-2xl w-6 h-6 flex items-center justify-center cursor-pointer hover:opacity-70"
