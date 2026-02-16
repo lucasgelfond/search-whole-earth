@@ -16,7 +16,7 @@ function showResultModal(item: any) {
 
 {#if results.length}
   <div class="pt-4">
-    <h3 class="font-bold pb-3">Search Results:</h3>
+    <h3 class="font-bold pb-3">{results.length} result{results.length === 1 ? '' : 's'}</h3>
     <div class="grid gap-4">
       {#each results as item}
         <SearchResult

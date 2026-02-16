@@ -18,7 +18,7 @@ function handleClick() {
 
 <button 
   type="button"
-  class="text-left border border-white rounded p-4 grid grid-cols-[1fr] min-[350px]:grid-cols-[100px_1fr] md:grid-cols-[140px_200px_1fr] gap-3 md:gap-3 cursor-pointer hover:bg-gray-800 w-full text-white bg-black"
+  class="text-left border border-white rounded p-4 grid grid-cols-[1fr] min-[350px]:grid-cols-[100px_1fr] md:grid-cols-[140px_200px_1fr] gap-3 md:gap-6 cursor-pointer hover:bg-gray-800 w-full text-white bg-black"
   on:click={handleClick}
 >
   <!-- Image column - only show above 350px width -->
@@ -36,10 +36,11 @@ function handleClick() {
   <div class="flex flex-col md:hidden">
     {#if issueMap[item.parent_issue_id]}
       <div class="text-xs text-white">
-        <div class="font-bold">
-          {collectionMap[issueMap[item.parent_issue_id].collection]} ({issueMap[item.parent_issue_id].pub_date})
+        <div class="text-[10px] text-white/70">{issueMap[item.parent_issue_id].pub_date}</div>
+        <div class="font-bold text-sm">
+          {collectionMap[issueMap[item.parent_issue_id].collection]}
         </div>
-        <div>Page {item.page_number}/{issueMap[item.parent_issue_id].num_pages}</div>
+        <div>pg <strong>{item.page_number}</strong>/{issueMap[item.parent_issue_id].num_pages}</div>
       </div>
       <div class="flex gap-2 pt-1 text-xs">
         <a
@@ -61,39 +62,39 @@ function handleClick() {
       </div>
     {/if}
     <!-- OCR content for mobile - always show even without issue metadata -->
-    <div class="pt-1 text-xs h-[100px] overflow-y-auto text-white">
+    <div class="pt-1 text-xs h-[60px] overflow-y-auto text-white tracking-[0.01em] leading-[1.6]">
       {@html highlightQuery(item.ocr_result || 'No text available', query)}
     </div>
   </div>
   
   <!-- Desktop only: Metadata column -->
-  <div class="hidden md:flex flex-col">
+  <div class="hidden md:flex flex-col justify-between h-full">
     {#if issueMap[item.parent_issue_id]}
-      <div class="text-sm text-white">
-        <div class="font-bold">{collectionMap[issueMap[item.parent_issue_id].collection]}</div>
-        <div>Published: {issueMap[item.parent_issue_id].pub_date}</div>
-        <div>Page {item.page_number}/{issueMap[item.parent_issue_id].num_pages}</div>
+      <div>
+        <div class="text-xs text-white/70">{issueMap[item.parent_issue_id].pub_date}</div>
+        <div class="text-xl font-bold text-white pt-1">{collectionMap[issueMap[item.parent_issue_id].collection]}</div>
       </div>
-      <div class="flex gap-2 pt-2 text-sm">
-        <a 
-          href={issueMap[item.parent_issue_id].internet_archive} 
-          class="text-blue-400 hover:underline" 
+      <div class="text-sm">pg <strong>{item.page_number}</strong>/{issueMap[item.parent_issue_id].num_pages}</div>
+      <div class="flex gap-2 text-sm">
+        <a
+          href={issueMap[item.parent_issue_id].internet_archive}
+          class="text-blue-400 hover:underline"
           target="_blank"
           on:click|stopPropagation
         >
           Archive
         </a>
-        <a 
-          href={issueMap[item.parent_issue_id].issue_url} 
-          class="text-blue-400 hover:underline" 
+        <a
+          href={issueMap[item.parent_issue_id].issue_url}
+          class="text-blue-400 hover:underline"
           target="_blank"
           on:click|stopPropagation
         >
           Info
         </a>
-        <a 
-          href={issueMap[item.parent_issue_id].pdf_download} 
-          class="text-blue-400 hover:underline" 
+        <a
+          href={issueMap[item.parent_issue_id].pdf_download}
+          class="text-blue-400 hover:underline"
           target="_blank"
           on:click|stopPropagation
         >
@@ -104,7 +105,7 @@ function handleClick() {
   </div>
   
   <!-- Desktop only: OCR content column -->
-  <div class="hidden md:block h-[200px] overflow-y-auto text-sm text-white">
+  <div class="hidden md:block h-[200px] overflow-y-auto text-sm text-white tracking-[0.01em] leading-[1.6]">
     {@html highlightQuery(item.ocr_result || 'No text available', query)}
   </div>
 </button>

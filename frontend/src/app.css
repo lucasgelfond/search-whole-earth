@@ -35,4 +35,9 @@ body {
 * {
 	box-sizing: border-box;
 	font-family: Whole Earth Modern, "Century Schoolbook Monospace", Courier, monospace;
+	font-synthesis: weight;
+}
+
+strong, b {
+	-webkit-text-stroke: 0.6px currentColor;
 }

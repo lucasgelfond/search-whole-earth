@@ -178,7 +178,7 @@ onDestroy(() => {
 
   {#if issue}
     <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 text-sm">
-      Page {$currentPageNumber} of {issue.num_pages}
+      pg <strong>{$currentPageNumber}</strong>/{issue.num_pages}
     </div>
   {/if}
 </div>
@@ -247,7 +247,7 @@ onDestroy(() => {
     </div>
 
     <div class="flex-1 overflow-y-auto mt-6 min-h-0">
-      <div class="text-lg leading-relaxed">
+      <div class="text-sm tracking-[0.01em] leading-[1.6]">
         {@html highlightQuery($allPages[$currentPageNumber]?.ocr_result || '', $searchQuery)}
       </div>
     </div>
@@ -307,20 +307,20 @@ onDestroy(() => {
   </div>
 
   <div class="p-4 flex-none border-b border-white/20">
+    <div class="text-sm text-white/70">{issue.pub_date}</div>
     <div class="text-lg font-bold">{collectionMap[issue.collection]}</div>
-    <div class="text-white/90">{issue.pub_date}</div>
     <div class="mt-2 flex justify-between items-center">
       <div class="flex gap-4">
-        <a href={issue.internet_archive} class="text-white hover:underline" target="_blank">Archive</a>
-        <a href={issue.issue_url} class="text-white hover:underline" target="_blank">Info</a>
-        <a href={issue.pdf_download} class="text-white hover:underline" target="_blank">PDF</a>
+        <a href={issue.internet_archive} class="text-blue-400 hover:underline" target="_blank">Archive</a>
+        <a href={issue.issue_url} class="text-blue-400 hover:underline" target="_blank">Info</a>
+        <a href={issue.pdf_download} class="text-blue-400 hover:underline" target="_blank">PDF</a>
       </div>
-      <div>Page {$currentPageNumber} of {issue.num_pages}</div>
+      <div>pg <strong>{$currentPageNumber}</strong>/{issue.num_pages}</div>
     </div>
   </div>
 
   <div class="flex-1 overflow-y-auto p-4 min-h-0">
-    <div class="text-base">
+    <div class="text-sm tracking-[0.01em] leading-[1.6]">
       {@html highlightQuery($allPages[$currentPageNumber]?.ocr_result || '', $searchQuery)}
     </div>
   </div>
