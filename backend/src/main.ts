@@ -16,6 +16,7 @@ app.use(
 		origin: (origin) => {
 			if (
 				origin === "https://searchable-whole-earth.pages.dev" ||
+				origin === "https://searchwhole.earth" ||
 				origin.startsWith("http://localhost")
 			) {
 				return origin;
