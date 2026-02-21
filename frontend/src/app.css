@@ -5,11 +5,13 @@
 @font-face {
 	font-family: "Whole Earth Modern";
 	src: url("/WEMLMRoman8-Regular.woff2") format("woff2");
+	font-display: swap;
 }
 
 @font-face {
 	font-family: "Century Schoolbook Monospace";
 	src: url("/MLMRomanUnsl10-Regular.woff2") format("woff2");
+	font-display: swap;
 }
 
 html,

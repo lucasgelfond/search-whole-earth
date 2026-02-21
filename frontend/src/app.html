@@ -3,13 +3,16 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="preload" href="/WEMLMRoman8-Regular.woff2" as="font" type="font/woff2" crossorigin />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>The (Searchable) Whole Earth</title>
 		%sveltekit.head%
 		<script>
-			if (new URLSearchParams(window.location.search).get('theme') === 'light') {
-				document.documentElement.classList.remove('dark');
-			}
+			(function() {
+				var theme = localStorage.getItem('theme-preference');
+				if (!theme) theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+				if (theme === 'light') document.documentElement.classList.remove('dark');
+			})();
 		</script>
 	</head>
 	<body data-sveltekit-preload-data="hover">
