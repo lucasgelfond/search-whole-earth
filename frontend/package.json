@@ -36,6 +36,7 @@
 		]
 	},
 	"dependencies": {
+		"clsx": "^2.1.1",
 		"dotenv": "^16.4.7"
 	}
 }
