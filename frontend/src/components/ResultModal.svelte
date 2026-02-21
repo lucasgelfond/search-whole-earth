@@ -130,7 +130,7 @@ onDestroy(() => {
 
 {#if fullScreen}
 <div
-  class="fixed inset-0 z-[100] bg-black flex items-center justify-center"
+  class="fixed inset-0 z-[100] bg-white dark:bg-black flex items-center justify-center"
   on:touchstart={handleTouchStart}
   on:touchend={handleTouchEnd}
 >
@@ -145,14 +145,14 @@ onDestroy(() => {
   {/if}
   {#if !imageLoaded}
     <div class="absolute inset-0 flex items-center justify-center">
-      <span class="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+      <span class="w-8 h-8 border-2 border-black dark:border-white border-t-transparent rounded-full animate-spin"></span>
     </div>
   {/if}
 
   <div class="absolute inset-y-0 left-0 right-0 flex justify-between items-center pointer-events-none">
     <button
       aria-label="Previous page"
-      class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+      class="pointer-events-auto bg-white/70 dark:bg-black/70 text-black dark:text-white p-4 hover:bg-white/90 dark:hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
       disabled={$currentPageNumber <= 1 || $loading || !$allPages[$currentPageNumber - 1]}
       on:click={() => changePage($currentPageNumber - 1)}
     >
@@ -160,7 +160,7 @@ onDestroy(() => {
     </button>
     <button
       aria-label="Next page"
-      class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+      class="pointer-events-auto bg-white/70 dark:bg-black/70 text-black dark:text-white p-4 hover:bg-white/90 dark:hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
       disabled={!issue || $currentPageNumber >= issue.num_pages || $loading || !$allPages[$currentPageNumber + 1]}
       on:click={() => changePage($currentPageNumber + 1)}
     >
@@ -170,14 +170,14 @@ onDestroy(() => {
 
   <button
     aria-label="Exit fullscreen"
-    class="absolute top-4 right-4 bg-black/70 text-white p-2 hover:bg-black/90 flex items-center justify-center"
+    class="absolute top-4 right-4 bg-white/70 dark:bg-black/70 text-black dark:text-white p-2 hover:bg-white/90 dark:hover:bg-black/90 flex items-center justify-center"
     on:click={toggleFullScreen}
   >
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline><line x1="14" y1="10" x2="21" y2="3"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
   </button>
 
   {#if issue}
-    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 text-sm">
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/70 dark:bg-black/70 text-black dark:text-white px-3 py-1 text-sm">
       pg <strong>{$currentPageNumber}</strong>/{issue.num_pages}
     </div>
   {/if}
@@ -186,7 +186,7 @@ onDestroy(() => {
 
 {#if issue}
 <!-- Desktop Layout -->
-<div class="hidden md:flex bg-black text-white h-full">
+<div class="hidden md:flex bg-white dark:bg-black text-black dark:text-white h-full">
   <!-- Image column -->
   <div
     class="flex-1 flex items-center justify-center p-6 min-h-0 min-w-0 relative"
@@ -204,14 +204,14 @@ onDestroy(() => {
     {/if}
     {#if !imageLoaded}
       <div class="absolute inset-0 flex items-center justify-center">
-        <span class="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+        <span class="w-8 h-8 border-2 border-black dark:border-white border-t-transparent rounded-full animate-spin"></span>
       </div>
     {/if}
 
     <div class="absolute inset-y-0 left-0 right-0 flex justify-between items-center pointer-events-none px-2">
       <button
         aria-label="Previous page"
-        class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+        class="pointer-events-auto bg-white/70 dark:bg-black/70 text-black dark:text-white p-4 hover:bg-white/90 dark:hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
         disabled={$currentPageNumber <= 1 || $loading || !$allPages[$currentPageNumber - 1]}
         on:click={() => changePage($currentPageNumber - 1)}
       >
@@ -219,7 +219,7 @@ onDestroy(() => {
       </button>
       <button
         aria-label="Next page"
-        class="pointer-events-auto bg-black/70 text-white p-4 hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+        class="pointer-events-auto bg-white/70 dark:bg-black/70 text-black dark:text-white p-4 hover:bg-white/90 dark:hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
         disabled={$currentPageNumber >= issue.num_pages || $loading || !$allPages[$currentPageNumber + 1]}
         on:click={() => changePage($currentPageNumber + 1)}
       >
@@ -229,7 +229,7 @@ onDestroy(() => {
 
     <button
       aria-label="Enter fullscreen"
-      class="absolute top-4 right-4 bg-black/70 text-white p-2 hover:bg-black/90 flex items-center justify-center"
+      class="absolute top-4 right-4 bg-white/70 dark:bg-black/70 text-black dark:text-white p-2 hover:bg-white/90 dark:hover:bg-black/90 flex items-center justify-center"
       on:click={toggleFullScreen}
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -237,7 +237,7 @@ onDestroy(() => {
   </div>
 
   <!-- Content column -->
-  <div class="w-[300px] lg:w-[500px] flex-none flex flex-col p-6 border-l border-white/20">
+  <div class="w-[300px] lg:w-[500px] flex-none flex flex-col p-6 border-l border-black/20 dark:border-white/20">
     <div class="flex-none">
       <IssueInformation
         {issue}
@@ -254,7 +254,7 @@ onDestroy(() => {
   </div>
 </div>
 <!-- Mobile Layout -->
-<div class="md:hidden flex flex-col h-full bg-black text-white">
+<div class="md:hidden flex flex-col h-full bg-white dark:bg-black text-black dark:text-white">
   <div
     class="flex-none relative h-[35vh]"
     on:touchstart={handleTouchStart}
@@ -271,14 +271,14 @@ onDestroy(() => {
     {/if}
     {#if !imageLoaded}
       <div class="absolute inset-0 flex items-center justify-center">
-        <span class="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+        <span class="w-8 h-8 border-2 border-black dark:border-white border-t-transparent rounded-full animate-spin"></span>
       </div>
     {/if}
 
     <div class="absolute inset-y-0 left-0 flex items-center">
       <button
         aria-label="Previous page"
-        class="bg-black/70 text-white p-2 rounded-r-lg hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+        class="bg-white/70 dark:bg-black/70 text-black dark:text-white p-2 rounded-r-lg hover:bg-white/90 dark:hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
         disabled={$currentPageNumber <= 1 || $loading || !$allPages[$currentPageNumber - 1]}
         on:click={() => changePage($currentPageNumber - 1)}
       >
@@ -289,7 +289,7 @@ onDestroy(() => {
     <div class="absolute inset-y-0 right-0 flex items-center">
       <button
         aria-label="Next page"
-        class="bg-black/70 text-white p-2 rounded-l-lg hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
+        class="bg-white/70 dark:bg-black/70 text-black dark:text-white p-2 rounded-l-lg hover:bg-white/90 dark:hover:bg-black/90 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center"
         disabled={$currentPageNumber >= issue.num_pages || $loading || !$allPages[$currentPageNumber + 1]}
         on:click={() => changePage($currentPageNumber + 1)}
       >
@@ -299,21 +299,21 @@ onDestroy(() => {
 
     <button
       aria-label="Enter fullscreen"
-      class="absolute top-3 right-12 bg-black/70 text-white p-2 rounded-sm hover:bg-black/90 flex items-center justify-center"
+      class="absolute top-3 right-12 bg-white/70 dark:bg-black/70 text-black dark:text-white p-2 rounded-sm hover:bg-white/90 dark:hover:bg-black/90 flex items-center justify-center"
       on:click={toggleFullScreen}
     >
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
     </button>
   </div>
 
-  <div class="p-4 flex-none border-b border-white/20">
-    <div class="text-sm text-white/70">{issue.pub_date}</div>
+  <div class="p-4 flex-none border-b border-black/20 dark:border-white/20">
+    <div class="text-sm text-black/70 dark:text-white/70">{issue.pub_date}</div>
     <div class="text-lg font-bold">{collectionMap[issue.collection]}</div>
     <div class="mt-2 flex justify-between items-center">
       <div class="flex gap-4">
-        <a href={issue.internet_archive} class="text-blue-400 hover:underline" target="_blank">Archive</a>
-        <a href={issue.issue_url} class="text-blue-400 hover:underline" target="_blank">Info</a>
-        <a href={issue.pdf_download} class="text-blue-400 hover:underline" target="_blank">PDF</a>
+        <a href={issue.internet_archive} class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">Archive</a>
+        <a href={issue.issue_url} class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">Info</a>
+        <a href={issue.pdf_download} class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">PDF</a>
       </div>
       <div>pg <strong>{$currentPageNumber}</strong>/{issue.num_pages}</div>
     </div>
@@ -326,7 +326,7 @@ onDestroy(() => {
   </div>
 </div>
 {:else}
-<div class="flex items-center justify-center h-full bg-black">
-  <span class="inline-block w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+<div class="flex items-center justify-center h-full bg-white dark:bg-black">
+  <span class="inline-block w-8 h-8 border-2 border-black dark:border-white border-t-transparent rounded-full animate-spin"></span>
 </div>
 {/if}

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @font-face {
 	font-family: "Whole Earth Modern";
 	src: url("/WEMLMRoman8-Regular.woff2") format("woff2");
@@ -16,6 +18,11 @@ body {
 	padding: 0;
 	width: 100%;
 	height: 100%;
+	background-color: white;
+}
+
+html.dark,
+html.dark body {
 	background-color: black;
 }
 
@@ -24,12 +31,17 @@ body {
 }
 
 #app {
-	color: white;
-	background-color: black;
+	color: black;
+	background-color: white;
 	min-height: 100vh;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+}
+
+html.dark #app {
+	color: white;
+	background-color: black;
 }
 
 * {
