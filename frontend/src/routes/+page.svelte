@@ -80,13 +80,13 @@ function handleKeyPress(event: KeyboardEvent) {
 
 <svelte:head>
   <meta property="og:title" content="The (Searchable) Whole Earth" />
-  <meta property="og:description" content="Search across every page of the Whole Earth Catalog, digitized and OCR'd." />
-  <meta property="og:image" content="https://searchwhole.earth/werdemo.gif" />
+  <meta property="og:description" content="A searchable archive of the Whole Earth Catalog." />
+  <meta property="og:image" content="https://searchwhole.earth/werdemo.gif?v=2" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="The (Searchable) Whole Earth" />
-  <meta name="twitter:description" content="Search across every page of the Whole Earth Catalog, digitized and OCR'd." />
-  <meta name="twitter:image" content="https://searchwhole.earth/werdemo.gif" />
+  <meta name="twitter:description" content="A searchable archive of the Whole Earth Catalog." />
+  <meta name="twitter:image" content="https://searchwhole.earth/werdemo.gif?v=2" />
 </svelte:head>
 
 <svelte:window on:keydown={(e) => { if (e.key === 'Escape' && modalProps) handleModalClose(); }} />
