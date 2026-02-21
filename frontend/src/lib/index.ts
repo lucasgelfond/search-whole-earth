@@ -7,8 +7,7 @@ export const isDarkMode = writable(true);
 
 export function initTheme() {
 	const stored = localStorage.getItem('theme-preference');
-	const urlTheme = new URLSearchParams(window.location.search).get('theme');
-	const theme = stored || urlTheme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+	const theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
 	const dark = theme !== 'light';
 	isDarkMode.set(dark);
 	if (dark) {
@@ -27,7 +26,6 @@ export function toggleTheme() {
 			document.documentElement.classList.remove('dark');
 		}
 		localStorage.setItem('theme-preference', newDark ? 'dark' : 'light');
-		updateUrlParams({ theme: newDark ? null : 'light' });
 		return newDark;
 	});
 }
