@@ -138,6 +138,7 @@ function handleKeyPress(event: KeyboardEvent) {
           ></span>
         </div>
         <button
+          type="button"
           class="shrink-0 border border-black dark:border-white text-black dark:text-white px-4 py-1 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
           on:click={() => handleSearch(input)}
           disabled={loading}
@@ -187,6 +188,7 @@ function handleKeyPress(event: KeyboardEvent) {
           ></span>
         </div>
         <button
+          type="button"
           class="shrink-0 border border-black dark:border-white text-black dark:text-white px-4 py-1 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
           on:click={() => handleSearch(input)}
           disabled={loading}
