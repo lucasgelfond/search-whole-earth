@@ -105,18 +105,23 @@ function handleKeyPress(event: KeyboardEvent) {
   <!-- Fixed compact toolbar: slides in when scrolled past the full header -->
   {#if scrolled}
   <div
-    class="fixed top-0 inset-x-0 z-40 px-4 md:px-20 py-3 bg-white dark:bg-black border-b border-black/10 dark:border-white/10"
+    class="fixed top-0 inset-x-0 z-40 px-4 md:px-20 py-4 bg-white dark:bg-black border-b border-black/50 dark:border-white/50"
     in:slide={{ duration: 200, easing: cubicOut, axis: 'y' }}
     out:slide={{ duration: 150, easing: cubicOut, axis: 'y' }}
   >
-    <div class="flex items-center gap-3">
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-3">
+      <!-- Row 1 on mobile: title + globe. Single row on desktop: everything -->
       <button
         class="text-xl font-bold shrink-0 whitespace-nowrap text-black dark:text-white leading-none cursor-pointer hover:opacity-70 transition-opacity bg-transparent border-none p-0"
         on:click={() => scrollContainer.scrollTo({ top: 0, behavior: 'smooth' })}
       >
         The (Searchable) Whole Earth
       </button>
-      <div class="flex items-center gap-2 flex-1 min-w-0">
+      <div class="shrink-0 ml-auto md:ml-0 md:order-last flex items-center self-center">
+        <ThemeToggle compact={true} />
+      </div>
+      <!-- Row 2 on mobile: search. Inline on desktop -->
+      <div class="flex items-center gap-2 basis-full md:basis-auto md:flex-1 md:min-w-0">
         <div class="relative flex-1">
           <input
             type="text"
@@ -140,7 +145,6 @@ function handleKeyPress(event: KeyboardEvent) {
           Search
         </button>
       </div>
-      <ThemeToggle compact={true} />
     </div>
   </div>
   {/if}
@@ -208,7 +212,7 @@ function handleKeyPress(event: KeyboardEvent) {
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
   <div
     transition:fade={{ duration: 150 }}
-    class="fixed inset-0 z-50 flex items-center justify-center bg-white/50 dark:bg-black/50"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-white/85 dark:bg-black/85"
     on:click|self={handleModalClose}
   >
     <div

@@ -54,6 +54,7 @@ html.dark #app {
 
 strong, b {
 	-webkit-text-stroke: 0.6px currentColor;
+	letter-spacing: 0.04em;
 }
 
 /* Focus: no outline, inset box-shadow to thicken border without layout shift */
