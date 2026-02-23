@@ -1,30 +1,16 @@
-import Together from "together-ai";
 import { getEnv } from "../context";
 
-const EMBEDDING_MODEL = "BAAI/bge-base-en-v1.5";
-
-// Singleton Together client cache (keyed by API key)
-const togetherClientCache = new Map<string, Together>();
-
-function getTogetherClient(): Together {
-	const env = getEnv();
-	const cacheKey = env.TOGETHER_API_KEY;
-
-	let client = togetherClientCache.get(cacheKey);
-	if (!client) {
-		client = new Together({ apiKey: env.TOGETHER_API_KEY });
-		togetherClientCache.set(cacheKey, client);
-	}
-	return client;
-}
+const EMBEDDING_MODEL = "@cf/baai/bge-base-en-v1.5" as const;
 
 export async function embedQuery(text: string): Promise<number[]> {
 	const start = performance.now();
-	const together = getTogetherClient();
-	const response = await together.embeddings.create({
-		model: EMBEDDING_MODEL,
-		input: text,
-	});
-	console.log(`  [timing] Together embedding: ${(performance.now() - start).toFixed(0)}ms`);
-	return response.data[0].embedding;
+	const env = getEnv();
+	const response = await env.AI.run(EMBEDDING_MODEL, { text: [text] });
+	console.log(
+		`  [timing] CF Workers AI embedding: ${(performance.now() - start).toFixed(0)}ms`,
+	);
+	if (!("data" in response) || !response.data) {
+		throw new Error("Unexpected embedding response format");
+	}
+	return response.data[0];
 }

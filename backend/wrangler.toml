@@ -6,6 +6,9 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 TURBOPUFFER_REGION = "aws-us-east-1"
 
+[ai]
+binding = "AI"
+
 [observability]
 enabled = true
 
