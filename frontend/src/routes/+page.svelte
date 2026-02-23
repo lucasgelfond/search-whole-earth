@@ -80,10 +80,9 @@ async function handleSearch(query: string, updateUrl = true) {
 	}
 }
 
-function handleKeyPress(event: KeyboardEvent) {
-	if (event.key === 'Enter') {
-		handleSearch(input);
-	}
+function handleSubmit(event: Event) {
+	event.preventDefault();
+	handleSearch(input);
 }
 </script>
 
@@ -121,14 +120,14 @@ function handleKeyPress(event: KeyboardEvent) {
         <ThemeToggle compact={true} />
       </div>
       <!-- Row 2 on mobile: search. Inline on desktop -->
-      <div class="flex items-center gap-2 basis-full md:basis-auto md:flex-1 md:min-w-0">
+      <form on:submit={handleSubmit} class="flex items-center gap-2 basis-full md:basis-auto md:flex-1 md:min-w-0">
         <div class="relative flex-1">
           <input
-            type="text"
+            type="search"
+            enterkeyhint="search"
             class="w-full border border-black dark:border-white px-2 py-1 bg-white dark:bg-black text-black dark:text-white disabled:opacity-50"
             placeholder="Enter text to search..."
             bind:value={input}
-            on:keypress={handleKeyPress}
             disabled={loading}
           />
           <span
@@ -138,14 +137,13 @@ function handleKeyPress(event: KeyboardEvent) {
           ></span>
         </div>
         <button
-          type="button"
+          type="submit"
           class="shrink-0 border border-black dark:border-white text-black dark:text-white px-4 py-1 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
-          on:click={() => handleSearch(input)}
           disabled={loading}
         >
           Search
         </button>
-      </div>
+      </form>
     </div>
   </div>
   {/if}
@@ -171,14 +169,14 @@ function handleKeyPress(event: KeyboardEvent) {
         Based on the (incredible) archiving effort of the <a href="https://wholeearth.info" class="underline hover:text-black dark:hover:text-white">Whole Earth Index</a> to scan and digitize all of these old issues, by <a href="https://grayarea.org/" class="underline hover:text-black dark:hover:text-white">Gray Area</a> and <a href="https://archive.org/" class="underline hover:text-black dark:hover:text-white">Internet Archive</a>. That effort was led by <a href="https://barrythrew.com/" class="underline hover:text-black dark:hover:text-white">Barry Threw</a>, designed by <a href="https://jongacnik.com/" class="underline hover:text-black dark:hover:text-white">Jon Gacnik</a> and <a href="https://mindyseu.com/" class="underline hover:text-black dark:hover:text-white">Mindy Seu</a>. More info <a href="https://wholeearth.info/information" class="underline hover:text-black dark:hover:text-white">here</a>. This site (+ OCR-ing these pages, embeddings, search functionality, and this webapp) was built by <a href="https://lucasgelfond.online" class="underline hover:text-black dark:hover:text-white">Lucas Gelfond</a>, you can read the source <a href="https://github.com/lucasgelfond/search-whole-earth" class="underline hover:text-black dark:hover:text-white">here</a>.
       </h2>
 
-      <div class="flex items-center gap-2 max-w-[60vh] py-2">
+      <form on:submit={handleSubmit} class="flex items-center gap-2 max-w-[60vh] py-2">
         <div class="relative flex-1">
           <input
-            type="text"
+            type="search"
+            enterkeyhint="search"
             class="w-full border border-black dark:border-white px-2 py-1 bg-white dark:bg-black text-black dark:text-white disabled:opacity-50"
             placeholder="Enter text to search..."
             bind:value={input}
-            on:keypress={handleKeyPress}
             disabled={loading}
           />
           <span
@@ -188,14 +186,13 @@ function handleKeyPress(event: KeyboardEvent) {
           ></span>
         </div>
         <button
-          type="button"
+          type="submit"
           class="shrink-0 border border-black dark:border-white text-black dark:text-white px-4 py-1 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
-          on:click={() => handleSearch(input)}
           disabled={loading}
         >
           Search
         </button>
-      </div>
+      </form>
     </div>
 
     <!-- Results -->
