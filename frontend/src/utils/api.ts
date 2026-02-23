@@ -35,7 +35,8 @@ export async function search(query: string, matchCount = 30): Promise<SearchResu
 	});
 
 	if (!response.ok) {
-		throw new Error(`Search failed: ${response.status} ${response.statusText}`);
+		const body = await response.text().catch(() => "");
+		throw new Error(`Search failed: ${response.status} ${response.statusText} ${body}`);
 	}
 
 	return response.json();

@@ -14,6 +14,7 @@ app.use(
 	"*",
 	cors({
 		origin: (origin) => {
+			if (!origin) return null;
 			if (
 				origin === "https://searchable-whole-earth.pages.dev" ||
 				origin === "https://searchwhole.earth" ||
