@@ -5,6 +5,8 @@ import { getPresignedUrl } from "./presign";
 
 const NAMESPACE = "searchable-whole-earth-page";
 
+const vec_threshold = 0.3;
+
 export type TurbopufferNamespace = ReturnType<Turbopuffer["namespace"]>;
 export type Bm25Promise = Promise<Awaited<ReturnType<TurbopufferNamespace["query"]>>>;
 
@@ -99,6 +101,8 @@ export async function hybridSearch(
 		};
 	});
 
+	const thresholdVecResults = vectorResults.filter((i) => i.score <= vec_threshold);
+
 	const bm25Results = (bm25Response.rows ?? []).map((row) => {
 		const rowData = row as Record<string, unknown>;
 		return {
@@ -113,7 +117,11 @@ export async function hybridSearch(
 		};
 	});
 
-	const fused = reciprocalRankFusion(vectorResults, bm25Results);
+	if (bm25Results.length === 0) {
+		return [];
+	}
+
+	const fused = reciprocalRankFusion(thresholdVecResults, bm25Results);
 	const topResults = fused.slice(0, matchCount);
 
 	const urlStart = performance.now();
